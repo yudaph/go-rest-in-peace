@@ -30,7 +30,7 @@ func Get(url string, target interface{}, headerOptional ...map[string]string) er
 	return request(&url, fasthttp.MethodGet, &[]byte{}, &target, &head)
 }
 
-func GetGoroutine(wg *sync.WaitGroup, url string, target interface{}, ErrChanel chan error, headerOptional ...map[string]string) {
+func GetWithWaitGroup(wg *sync.WaitGroup, url string, target interface{}, ErrChanel chan error, headerOptional ...map[string]string) {
 	defer wg.Done()
 
 	head := map[string]string{}
@@ -57,7 +57,7 @@ func Post(url string, body map[string]interface{}, target interface{}, headerOpt
 	return request(&url, fasthttp.MethodPost, &content, &target, &head)
 }
 
-func PostGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
+func PostWithWaitGroup(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
 	defer wg.Done()
 
 	head := map[string]string{}
@@ -89,7 +89,7 @@ func Put(url string, body map[string]interface{}, target interface{}, headerOpti
 	return request(&url, fasthttp.MethodPut, &content, &target, &head)
 }
 
-func PutGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
+func PutWithWaitGroup(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
 	defer wg.Done()
 
 	head := map[string]string{}
@@ -121,7 +121,7 @@ func Patch(url string, body map[string]interface{}, target interface{}, headerOp
 	return request(&url, fasthttp.MethodPatch, &content, &target, &head)
 }
 
-func PatchGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
+func PatchWithWaitGroup(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
 	defer wg.Done()
 
 	head := map[string]string{}
@@ -148,7 +148,7 @@ func Delete(url string, target interface{}, headerOptional ...map[string]string)
 	return request(&url, fasthttp.MethodDelete, &[]byte{}, &target, &head)
 }
 
-func DeleteGoroutine(wg *sync.WaitGroup, url string, target interface{}, ErrChanel chan error, headerOptional ...map[string]string) {
+func DeleteWithWaitGroup(wg *sync.WaitGroup, url string, target interface{}, ErrChanel chan error, headerOptional ...map[string]string) {
 	defer wg.Done()
 
 	head := map[string]string{}
