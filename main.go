@@ -74,6 +74,92 @@ func PostGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, 
 	ErrChanel <- err
 }
 
+func Put(url string, body map[string]interface{}, target interface{}, headerOptional ...map[string]string) error {
+	
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	content, err := json.Marshal(body)
+	if err!=nil{
+		return err
+	}
+	
+	return request(&url, fasthttp.MethodPut, &content, &target, &head)
+}
+
+func PutGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
+	defer wg.Done()
+
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	content, err := json.Marshal(body)
+	if err != nil{	
+		ErrChanel <- err
+	}
+
+	err = request(&url, fasthttp.MethodPut, &content, &target, &head)
+	ErrChanel <- err
+}
+
+func Patch(url string, body map[string]interface{}, target interface{}, headerOptional ...map[string]string) error {
+	
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	content, err := json.Marshal(body)
+	if err!=nil{
+		return err
+	}
+	
+	return request(&url, fasthttp.MethodPatch, &content, &target, &head)
+}
+
+func PatchGoroutine(wg *sync.WaitGroup, url string, body map[string]interface{}, target interface{}, ErrChanel chan error, headerOptional ...map[string]string){
+	defer wg.Done()
+
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	content, err := json.Marshal(body)
+	if err != nil{	
+		ErrChanel <- err
+	}
+
+	err = request(&url, fasthttp.MethodPatch, &content, &target, &head)
+	ErrChanel <- err
+}
+
+func Delete(url string, target interface{}, headerOptional ...map[string]string) error {
+
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	return request(&url, fasthttp.MethodDelete, &[]byte{}, &target, &head)
+}
+
+func DeleteGoroutine(wg *sync.WaitGroup, url string, target interface{}, ErrChanel chan error, headerOptional ...map[string]string) {
+	defer wg.Done()
+
+	head := map[string]string{}
+	if len(headerOptional) > 0 {
+		head = headerOptional[0]
+	}
+
+	err:= request(&url, fasthttp.MethodDelete, &[]byte{}, &target, &head)
+	ErrChanel <- err
+}
+
 func request(url *string, method string, content *[]byte, target *interface{}, header *map[string]string) error {
 
 	//fmt.Println("Isi dari a = ",a)
